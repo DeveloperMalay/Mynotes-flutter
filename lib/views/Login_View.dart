@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
+import 'dart:developer' as devtools show log;
 
 class Login_View extends StatefulWidget {
   const Login_View({Key? key}) : super(key: key);
@@ -38,7 +38,8 @@ class _Login_ViewState extends State<Login_View> {
             enableSuggestions: false,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(hintText: 'Enter your email here'),
+            decoration:
+                const InputDecoration(hintText: 'Enter your email here'),
           ),
           TextField(
             controller: _password,
@@ -53,18 +54,21 @@ class _Login_ViewState extends State<Login_View> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final UserCredential = await FirebaseAuth.instance
-                    .signInWithEmailAndPassword(email: email, password: password);
-                print(UserCredential);
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/notes',
+                  (route) => false,
+                );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  print("user not found");
+                  devtools.log("user not found");
                 } else if (e.code == 'wrong-password') {
-                  print('wrong password');
+                  devtools.log('wrong password');
                 }
               }
-    
-              // print(UserCredential);
             },
             child: const Text('Login'),
           ),
@@ -73,7 +77,7 @@ class _Login_ViewState extends State<Login_View> {
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil('/register/', (route) => false);
               },
-              child:  const Text("Don,t have a account? Register here "))
+              child: const Text("Don,t have a account? Register here "))
         ],
       ),
     );
