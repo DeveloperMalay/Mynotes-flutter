@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 import 'package:mynotes/constant/routes.dart';
 import 'package:mynotes/servides/auth/auth_exception.dart';
 import 'package:mynotes/servides/auth/auth_service.dart';
-
 import '../utilities/show_error_dialog.dart';
 
 class Login_View extends StatefulWidget {
@@ -66,7 +64,7 @@ class _Login_ViewState extends State<Login_View> {
                     password: password,
                   );
                   final user = AuthService.firebase().currentUser;
-                  if (user?.isEmailverified ?? false) {
+                  if (user?.isEmailVerified ?? false) {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       notesroute,
                       (route) => false,
