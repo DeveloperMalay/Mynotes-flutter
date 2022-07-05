@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/servides/auth/auth_service.dart';
 import 'package:mynotes/servides/curd/notes_service.dart';
+// import 'package:mynotes/services/auth/auth_service.dart';
+// import 'package:mynotes/services/crud/notes_service.dart';
 
 class NewNoteView extends StatefulWidget {
   const NewNoteView({Key? key}) : super(key: key);
 
   @override
-  State<NewNoteView> createState() => _NewNoteViewState();
+  _NewNoteViewState createState() => _NewNoteViewState();
 }
 
 class _NewNoteViewState extends State<NewNoteView> {
   DatabaseNote? _note;
   late final NotesService _notesService;
   late final TextEditingController _textController;
-  
+
   @override
   void initState() {
     _notesService = NotesService();
@@ -49,7 +51,7 @@ class _NewNoteViewState extends State<NewNoteView> {
     return await _notesService.createNote(owner: owner);
   }
 
-  void _deleteNoteIfTextisEmpty() {
+  void _deleteNoteIfTextIsEmpty() {
     final note = _note;
     if (_textController.text.isEmpty && note != null) {
       _notesService.deleteNote(id: note.id);
@@ -69,7 +71,7 @@ class _NewNoteViewState extends State<NewNoteView> {
 
   @override
   void dispose() {
-    _deleteNoteIfTextisEmpty();
+    _deleteNoteIfTextIsEmpty();
     _saveNoteIfTextNotEmpty();
     _textController.dispose();
     super.dispose();
@@ -78,7 +80,9 @@ class _NewNoteViewState extends State<NewNoteView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New Note')),
+      appBar: AppBar(
+        title: const Text('New Note'),
+      ),
       body: FutureBuilder(
         future: createNewNote(),
         builder: (context, snapshot) {
@@ -91,9 +95,8 @@ class _NewNoteViewState extends State<NewNoteView> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: const InputDecoration(
-                  labelText: 'Start typing your note',
-                    // hintText: 'Start typing your note...'
-                    ),
+                  hintText: 'Start typing your note...',
+                ),
               );
             default:
               return const CircularProgressIndicator();
