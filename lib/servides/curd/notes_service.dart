@@ -12,6 +12,7 @@ class NotesService {
   factory NotesService() => _shared;
 
   List<DatabaseNote> _notes = [];
+  
   final _notesStreamController =
       StreamController<List<DatabaseNote>>.broadcast();
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
@@ -21,6 +22,8 @@ class NotesService {
       final user = await getUser(email: email);
       return user;
     } on CouldNotFindUser {
+
+   //   create user should be login user but I changed it
       final createdUser = await createUser(email: email);
       return createdUser;
     } catch (e) {
