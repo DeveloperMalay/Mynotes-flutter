@@ -3,7 +3,7 @@ import 'package:mynotes/constant/routes.dart';
 import 'package:mynotes/servides/auth/auth_service.dart';
 import 'package:mynotes/views/Login_View.dart';
 import 'package:mynotes/views/Register_View.dart';
-import 'package:mynotes/views/notes/new_note_view.dart';
+import 'package:mynotes/views/notes/create_update_note_view.dart';
 import 'package:mynotes/views/notes/notes_view.dart';
 import 'views/Login_View.dart';
 import 'views/Register_View.dart';
@@ -22,7 +22,7 @@ void main() {
       registerroute: (context) => const RegisterView(),
       notesroute: (context) => const NotesView(),
       verifyEmailroute: (context) => const VerifyEmail(),
-      newNotesRoute: (context) => const NewNoteView(),
+      createOrUpdateNotesRoute: (context) => const CreateUpdateNoteView(),
     },
   ));
 }

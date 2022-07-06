@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/constant/routes.dart';
-// import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/servides/auth/auth_service.dart';
 import 'package:mynotes/servides/curd/notes_service.dart';
 import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
 import 'package:mynotes/views/notes/notes_list_view.dart';
-// import 'package:mynotes/services/auth/auth_service.dart';
-// import 'package:mynotes/services/crud/notes_service.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({Key? key}) : super(key: key);
@@ -34,7 +31,7 @@ class _NotesViewState extends State<NotesView> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(newNotesRoute);
+              Navigator.of(context).pushNamed(createOrUpdateNotesRoute);
             },
             icon: const Icon(Icons.add),
           ),
@@ -80,6 +77,12 @@ class _NotesViewState extends State<NotesView> {
                           notes: allNotes,
                           onDeleteNote: (note) async {
                             await _notesService.deleteNote(id: note.id);
+                          },
+                          onTap: (note) {
+                            Navigator.of(context).pushNamed(
+                              createOrUpdateNotesRoute,
+                              arguments: note,
+                            );
                           },
                         );
                       } else {
