@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mynotes/constant/routes.dart';
 import 'package:mynotes/servides/auth/auth_exception.dart';
 import 'package:mynotes/servides/auth/auth_service.dart';
+import 'package:mynotes/servides/auth/bloc/auth_bloc.dart';
+import 'package:mynotes/servides/auth/bloc/auth_event.dart';
 import 'package:mynotes/utilities/dialogs/error_dialog.dart';
-
 
 class Login_View extends StatefulWidget {
   const Login_View({Key? key}) : super(key: key);
@@ -59,23 +61,12 @@ class _Login_ViewState extends State<Login_View> {
                 final email = _email.text;
                 final password = _password.text;
                 try {
-                  ;
-                  await AuthService.firebase().logIn(
-                    email: email,
-                    password: password,
-                  );
-                  final user = AuthService.firebase().currentUser;
-                  if (user?.isEmailVerified ?? false) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      notesroute,
-                      (route) => false,
-                    );
-                  } else {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      verifyEmailroute,
-                      (route) => false,
-                    );
-                  }
+                  context.read<AuthBloc>().add(
+                        AuthEventLogIn(
+                          email,
+                          password,
+                        ),
+                      );
                 } on UesrNotFoundAuthException {
                   await showErrorDialog(
                     context,

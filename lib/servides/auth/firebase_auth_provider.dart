@@ -7,6 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
 
 class FirebaseAuthProvider implements AuthProvider {
+
+
+  //creating new user or register new user in firebase
   @override
   Future<AuthUser> createUser({
     required String email,
@@ -47,9 +50,9 @@ class FirebaseAuthProvider implements AuthProvider {
       return null;
     }
   }
-
+//login user in firebase
   @override
-  Future<AuthUser?> logIn({
+  Future<AuthUser> logIn({
     required String email,
     required String password,
   }) async {
@@ -77,6 +80,7 @@ class FirebaseAuthProvider implements AuthProvider {
     }
   }
 
+//logout user from firebase
   @override
   Future<void> logOut() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -86,7 +90,7 @@ class FirebaseAuthProvider implements AuthProvider {
       throw UserNotLoggedInAuthException();
     }
   }
-
+// verifired email
   @override
   Future<void> sendEmailVerification() async {
     final user = FirebaseAuth.instance.currentUser;
