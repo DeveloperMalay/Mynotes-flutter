@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 typedef CloseDialog = void Function();
@@ -9,6 +8,7 @@ CloseDialog showLoadingDialog({
 }) {
   final dialog = AlertDialog(
     content: Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         const CircularProgressIndicator(),
         const SizedBox(
