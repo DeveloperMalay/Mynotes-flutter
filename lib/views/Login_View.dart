@@ -5,7 +5,7 @@ import 'package:mynotes/servides/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/servides/auth/bloc/auth_event.dart';
 import 'package:mynotes/servides/auth/bloc/auth_state.dart';
 import 'package:mynotes/utilities/dialogs/error_dialog.dart';
-import 'package:mynotes/utilities/dialogs/loading_dialog.dart';
+
 
 class Login_View extends StatefulWidget {
   const Login_View({Key? key}) : super(key: key);
@@ -37,8 +37,9 @@ class _Login_ViewState extends State<Login_View> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
-          if (state.exception is UesrNotFoundAuthException) {
-            await showErrorDialog(context, 'User Not Found');
+          if (state.exception is UserNotFoundAuthException) {
+            await showErrorDialog(
+                context, 'Cannot find a user with the entered credential ');
           } else if (state.exception is WrongPasswordAuthException) {
             await showErrorDialog(context, 'Wrong credential');
           } else if (state.exception is GenericAuthException) {
@@ -52,6 +53,8 @@ class _Login_ViewState extends State<Login_View> {
           padding: const EdgeInsets.all(5.0),
           child: Column(
             children: [
+              const Text(
+                  'Please login to your account in order to interect and create notes '),
               TextField(
                 controller: _email,
                 enableSuggestions: false,
@@ -84,11 +87,19 @@ class _Login_ViewState extends State<Login_View> {
               TextButton(
                 onPressed: () {
                   context.read<AuthBloc>().add(
+                        const AuthEventForgetPassword(),
+                      );
+                },
+                child: const Text(" I forgot my password "),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(
                         const AuthEventShouldRegister(),
                       );
                 },
                 child: const Text("Don,t have a account? Register here "),
-              )
+              ),
             ],
           ),
         ),

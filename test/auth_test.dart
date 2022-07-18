@@ -38,7 +38,7 @@ void main() {
       final badEmailUser =
           provider.createUser(email: 'foo@bar.com', password: 'anypassword');
       expect(badEmailUser,
-          throwsA(const TypeMatcher<UesrNotFoundAuthException>()));
+          throwsA(const TypeMatcher<UserNotFoundAuthException>()));
 
       final badpasswordUser =
           provider.createUser(email: 'someone@bar.com', password: 'foobar');
@@ -99,7 +99,7 @@ class MockAuthProvider implements AuthProvider {
   @override
   Future<void> logOut() async {
     if (!isInitialized) throw NotInitializedException();
-    if (_user == null) throw UesrNotFoundAuthException();
+    if (_user == null) throw UserNotFoundAuthException();
     await Future.delayed(const Duration(seconds: 1));
     _user = null;
   }
@@ -108,7 +108,7 @@ class MockAuthProvider implements AuthProvider {
   Future<void> sendEmailVerification() async {
     if (!isInitialized) throw NotInitializedException();
     final user = _user;
-    if (user == null) throw UesrNotFoundAuthException();
+    if (user == null) throw UserNotFoundAuthException();
     const newuser = AuthUser(
       id: 'my_id',
       isEmailVerified: true,
@@ -123,7 +123,7 @@ class MockAuthProvider implements AuthProvider {
     required String password,
   }) {
     if (!isInitialized) throw NotInitializedException();
-    if (email == 'foo@bar.com') throw UesrNotFoundAuthException();
+    if (email == 'foo@bar.com') throw UserNotFoundAuthException();
     if (password == 'foobar') throw WrongPasswordAuthException();
     const user = AuthUser(
       id: 'my_id',
@@ -132,5 +132,10 @@ class MockAuthProvider implements AuthProvider {
     );
     _user = user;
     return Future.value(user);
+  }
+
+  @override
+  Future<void> sendPasswordReset({required String toEmail}) {
+    throw UnimplementedError();
   }
 }
